@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import TollEntry from './components/TollEntry';
+import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+import TollList from './components/TollList';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h4>Toll Management Application</h4>
+      <hr className='line'/>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={TollEntry}/>
+          <Route exact path='/tollList' component={TollList} />
+        </Switch>
+      </Router>
+    
     </div>
   );
 }
