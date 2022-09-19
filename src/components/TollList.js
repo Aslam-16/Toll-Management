@@ -1,7 +1,9 @@
 import react from 'react'
 import {Link} from 'react-router-dom'
 import { Modal } from './Modal'
+import vehicleData from '../data/vehicledata.json'
 import tollData from '../data/tolldata.json'
+let vehicleTypes = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
 // tollData.push({
 //     "tollname": "omr",
 //     "car/jeep/van": [60, 30],
@@ -11,10 +13,7 @@ import tollData from '../data/tolldata.json'
 
 // })
 //console.log(localStorage.getItem('tolldata'))
-if(!localStorage.getItem('tolldata')){
-    let str_toll=JSON.stringify(tollData)
-    localStorage.setItem('tolldata',str_toll)
-}
+
 
 class TollList extends react.Component {
     constructor(props) {
@@ -22,8 +21,36 @@ class TollList extends react.Component {
         this.state = {
             showModal: false,
             modalType: "",
-            search:''
+            search:'',
+            tolls: '',
+            tollData: [],
+            loaded: false
            
+        }
+    }
+
+    componentDidMount() {
+        console.log();
+        let data = JSON.parse(localStorage.getItem('tolldata'))
+        let vehdata = JSON.parse(localStorage.getItem('vehdata'))
+        if (!data) {
+            let str_toll = JSON.stringify(tollData)
+            localStorage.setItem('tolldata', str_toll)
+
+            this.setState({ tolls: tollData, loaded: true })
+        }
+        else {
+
+            this.setState({ tolls: data, loaded: true })
+        }
+
+        if (!vehdata) {
+            let str_veh = JSON.stringify(vehicleData)
+            localStorage.setItem('vehdata', str_veh)
+            this.setState({ tollData: vehicleData, loaded: true })
+        }
+        else {
+            this.setState({ tollData: vehdata, loaded: true })
         }
     }
    
@@ -49,11 +76,11 @@ class TollList extends react.Component {
             );
         
     });
-}
+} 
     render() {
         return (
             <div>
-                {this.state.showModal ? <Modal setShowModal={this.closeModal} modalType={this.state.modalType} /> : null}
+                {this.state.showModal ? <Modal setShowModal={this.closeModal} modalType={this.state.modalType} tolls={this.state.tolls} tollData={this.state.tollData} /> : null}
 
                 <div id='header'>
                     <div id="left-header">

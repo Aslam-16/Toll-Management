@@ -1,5 +1,6 @@
-import { type } from "@testing-library/user-event/dist/type";
+
 import React, { useState } from "react";
+import Addvehicle from './'
 
 let vehicleType = ['car_jeep_van', 'lcv', 'heavy_behicle', 'truck_bus']
 export class Modal extends React.Component {
