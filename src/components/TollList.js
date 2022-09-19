@@ -1,15 +1,32 @@
 import react from 'react'
 import {Link} from 'react-router-dom'
 import { Modal } from './Modal'
+import tollData from '../data/tolldata.json'
+// tollData.push({
+//     "tollname": "omr",
+//     "car/jeep/van": [60, 30],
+//     "lcv": [90, 40],
+//     "truck/bus": [70, 50],
+//     "heavy_vehicle": [80, 60]
+
+// })
+//console.log(localStorage.getItem('tolldata'))
+if(!localStorage.getItem('tolldata')){
+    let str_toll=JSON.stringify(tollData)
+    localStorage.setItem('tolldata',str_toll)
+}
 
 class TollList extends react.Component {
     constructor(props) {
         super(props)
         this.state = {
             showModal: false,
-            modalType: ""
+            modalType: "",
+            search:''
+           
         }
     }
+   
     openModal = (e) => {
         this.setState({ showModal: true, modalType: e.target.name })
         console.log('yes', e.target.name)
@@ -17,7 +34,22 @@ class TollList extends react.Component {
     closeModal = () => {
         this.setState({ showModal: false, modalType: '' })
     };
-
+    onSearch=(e)=>{
+        console.log(e);
+        this.setState({search:e})
+    }
+      search=(items) =>{
+    return items.filter((item) => {
+        
+            return (
+                item["tollname"]
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(this.state.search.toLowerCase()) > -1
+            );
+        
+    });
+}
     render() {
         return (
             <div>
@@ -27,7 +59,10 @@ class TollList extends react.Component {
                     <div id="left-header">
                         <h3 style={{width:160,gap:0}}>Tollgate List</h3>
                         <span id='between'>|</span>
-                        <input type='search' name='search' class="nosubmit" placeholder='Search a toll' />
+                        <input type='search' name='search' className="nosubmit" placeholder='Search a toll' 
+                        value={this.state.search} 
+                            onChange={(e) => this.onSearch(e.target.value)}
+                        />
                     </div>
                     <div id="right-header">
                         <button type='button' name='vehicle' onClick={(e) => this.openModal(e)}>Add vehicle entry</button>
@@ -47,30 +82,13 @@ class TollList extends react.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Visa - 3412</td>
-                            <td>04/01/2016</td>
-                            <td>$1,190</td>
-                            <td>03/01/2016 - 03/31/2016</td>
-                        </tr>
-                        <tr>
-                            <td>Visa - 6076</td>
-                            <td>03/01/2016</td>
-                            <td>$2,443</td>
-                            <td>02/01/2016 - 02/29/2016</td>
-                        </tr>
-                        <tr>
-                            <td>Corporate AMEX</td>
-                            <td>03/01/2016</td>
-                            <td>$1,181</td>
-                            <td>02/01/2016 - 02/29/2016</td>
-                        </tr>
-                        <tr>
-                            <td>Visa - 3412</td>
-                            <td>02/01/2016</td>
-                            <td>$842</td>
-                            <td>01/01/2016 - 01/31/2016</td>
-                        </tr>
+                        {this.search(tollData).length > 0 ? this.search(tollData).map((toll,i)=><tr key={i}>
+                            <td>{toll.tollname}</td>
+                            <td>{toll['car_jeep_van']['singlejourney']}/{toll['car_jeep_van']['returnjourney']}</td>
+                            <td>{toll.lcv[['singlejourney']]}/{toll.lcv['returnjourney']}</td>
+                            <td>{toll["truck_bus"]['singlejourney']}/{toll["truck_bus"]['returnjourney']}</td>
+                            <td>{toll.heavy_vehicle['singlejourney']}/{toll.heavy_vehicle['returnjourney']}</td>
+                        </tr>):<tr>No such Toll is available</tr>}
                     </tbody>
                 </table>
             </div>
