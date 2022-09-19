@@ -92,7 +92,7 @@ class TollList extends react.Component {
                         />
                     </div>
                     <div id="right-header">
-                        <button type='button' name='vehicle' onClick={(e) => this.openModal(e)}>Add vehicle entry</button>
+                        <button type='button'  name='vehicle' onClick={(e) => this.openModal(e)}>Add vehicle entry</button>
                         <button type='button' name='toll' onClick={(e) => this.openModal(e)}>Add new toll</button>
                         <Link to='/'><button type='button'>Back to vehicle logs</button></Link>
                     </div>
