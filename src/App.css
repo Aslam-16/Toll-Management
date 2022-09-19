@@ -22,6 +22,7 @@
   justify-content: space-between;
 }
 button{
+  cursor: pointer;
   background-color: rgb(22, 142, 255);
   color: white;
   padding: 5px;
@@ -178,4 +179,11 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 15px
+}
+p{
+  color: red;
+  margin: 0;
+}
+button:disabled{
+  cursor: not-allowed;
 }

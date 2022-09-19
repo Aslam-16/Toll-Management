@@ -16,7 +16,13 @@ export class Addvehicle extends React.Component {
             },
             filterfromdata: '',
             filteredjourney: '',
-            filteredreturn: ''
+            filteredreturn: '',
+            disabled:true,
+            valueerror:false,
+            typeerror:true,
+            numbererror:true,
+            lengtherror:false,
+            buttonerror:true
 
 
         }
@@ -28,10 +34,10 @@ export class Addvehicle extends React.Component {
     onChange = (e) => {
         let name = e.target.name
         let value = e.target.value
-
+        let vehicle = { ...this.state.vehicle }
         if (name === 'vehicle_tollname') {
             if (value !== "") {
-                let vehicle = { ...this.state.vehicle }
+                
                 vehicle.tollname = value;
                 this.setState({ vehicle: vehicle })
                 console.log(value);
@@ -39,18 +45,35 @@ export class Addvehicle extends React.Component {
                 )
                 this.setState({
                     filterfromdata: filteredtoll,
+                    typeerror:false
 
                 })
                 console.log(this.state.filterfromdata, value);
+            }else{
+                vehicle.tollname = value;
+                this.setState({
+                    vehicle: vehicle,
+                    typeerror: true
+
+                })
             }
         }
         else if (name === 'vehicle_vehicletype') {
+            let vehicle = { ...this.state.vehicle }
+            
             if (value !== "") {
                 let vehicle = { ...this.state.vehicle }
                 vehicle.vehicle_type = value;
-                this.setState({ vehicle: vehicle })
+                vehicle.tariff = this.state.filterfromdata[0][value]['singlejourney']
+                this.setState({ vehicle: vehicle,numbererror:false })
                 console.log(this.state.filterfromdata[0][value], value);
-                this.setState({ filteredjourney: this.state.filterfromdata[0][value] })
+                this.setState({ filteredjourney: this.state.filterfromdata[0][value],numbererror:false })
+
+            }
+            else{
+                vehicle.tariff=""
+                vehicle.vehicle_type = value;
+                this.setState({ vehicle: vehicle, numbererror: true })
 
             }
         }
@@ -59,28 +82,30 @@ export class Addvehicle extends React.Component {
             //let vehicle = { ...this.state.vehicle }
 
             let vehicle = { ...this.state.vehicle }
+            if(value!==""){
             vehicle.vehicle_number = value
 
 
             console.log(1);
-            if (value.split('').length >= 9) {
-                let filteredveh = this.props.tollData.filter((veh) => veh.vehicle_number === value)
+            if (value.split('').length >= 6) {
+                let filteredveh = this.props.tollData.filter((veh) => veh.vehicle_number.toUpperCase() === value.toUpperCase())
                 console.log(2);
 
                 if (filteredveh.length === 0 || filteredveh.length % 2 === 0) {
                     vehicle.tariff = this.state.filteredjourney['singlejourney']
                     vehicle.date = new Date().toLocaleString()
-                    this.setState({ vehicle: vehicle })
+                    vehicle.vehicle_number = value.toUpperCase()
+                    this.setState({ vehicle: vehicle, valueerror: false, lengtherror: false, buttonerror: false })
                     //this.onTariff('tariff', this.state.filteredjourney['singlejourney'])
                     console.log(this.state.tariff, this.state.filteredjourney['singlejourney']);
                     console.log(3);
-                    vehicle.vehicle_number = value
+                    
 
                 }
                 else if (filteredveh.length % 2 !== 0) {
-                    let num = value
+                    let num = value.toUpperCase()
                     let curTime = new Date().toLocaleString()
-                    let tollTime = this.props.tollData.filter((toll) => toll.vehicle_number === num)
+                    let tollTime = this.props.tollData.filter((toll) => toll.vehicle_number.toUpperCase() === num)
                     tollTime = tollTime[tollTime.length - 1].date
 
                     console.log(new Date(curTime) - new Date(tollTime), new Date(curTime), new Date(tollTime))
@@ -92,15 +117,20 @@ export class Addvehicle extends React.Component {
                     vehicle.date = new Date().toLocaleString()
 
                     vehicle.tariff = hours <= 1 ? this.state.filteredjourney['singlejourney'] - this.state.filteredjourney['returnjourney'] : this.state.filteredjourney['singlejourney']
-                    this.setState({ vehicle: vehicle })
+                    this.setState({ vehicle: vehicle, valueerror: false, lengtherror: false, buttonerror: false })
                 }
             }
             else {
                 vehicle.tariff = ""
                 vehicle.vehicle_number = value
-                this.setState({ vehicle: vehicle })
+                this.setState({ vehicle: vehicle, valueerror: false, lengtherror: true, buttonerror: true })
             }
+        }
+        else{
+                vehicle.vehicle_number = value
+                this.setState({ vehicle: vehicle, valueerror: true,lengtherror:false,buttonerror:true})
 
+        }
 
         }
     }
@@ -142,8 +172,9 @@ export class Addvehicle extends React.Component {
                                 {this.props.tolls && this.props.tolls.map((toll, i) => <option key={i} value={toll.tollname}>{toll.tollname}</option>)}
 
                             </select>
+                            {/* {this.state.tollerror?<p>this field is required</p>:null} */}
                             <label html-for='drop-veh'>Select vehicle type</label>
-                            <select id='drop-veh' name='vehicle_vehicletype' onChange={(e) => this.onChange(e)}>
+                            <select id='drop-veh' name='vehicle_vehicletype' onChange={(e) => this.onChange(e)} disabled={this.state.typeerror}>
                                 <option value="">select vehicle type</option>
                                 {
                                     vehicleTypes.map((type, i) =>
@@ -151,13 +182,16 @@ export class Addvehicle extends React.Component {
 
 
                             </select>
+                            {/* {this.state.typerror ? <p>this field is required</p> : null} */}
                             <label html-for='veh-number'>Vehicle Number</label>
-                            <input type='text' name='vehicle_number' value={this.state.vehicle.vehicle_number} onChange={(e) => this.onChange(e)} />
+                            <input type='text' name='vehicle_number' value={this.state.vehicle.vehicle_number} onChange={(e) => this.onChange(e)} disabled={this.state.numbererror} />
+                             {this.state.valueerror ? <p>vehicle number is required</p> : null} 
+                            {this.state.lengtherror ? <p>Number should be greater than 6</p> : null} 
                             <label html-for='tariff'>Tariff</label>
                             <input type='text' name='tariff' value={this.state.vehicle.tariff} onChange={(e) => this.onChange(e)} disabled={true} />
 
                         </div>
-                        <button type='button' className='modal-button' onClick={this.onAddToll}>Add new toll</button>
+                        <button type='button' className='modal-button' onClick={this.onAddToll} disabled={this.state.buttonerror}>Add new toll</button>
                     </div>
                 </div>
 
