@@ -10,14 +10,14 @@
         "vehicle_type": "lcv",
         "vehicle_number": "TN32AC2222",
         "date": "9/18/2022, 9:54:58 PM",
-        "tollname": "CHENGAL",
+        "tollname": "chengalpattu",
         "tariff": 50
     },
     {
         "vehicle_type": "truck/car",
         "vehicle_number": "TN33AC3333",
         "date": "9/18/2022, 10:54:58 PM",
-        "tollname": "OMR",
+        "tollname": "chengalpattu",
         "tariff": 50
     }
 ]
