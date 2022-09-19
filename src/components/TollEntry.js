@@ -18,17 +18,19 @@ class TollEntry extends react.Component{
             tollData:[],
             loaded:false,
             searchparam:['tollname','vehicle_number'],
-            filterparam:['All'],
+            filterparam:'All',
             
         }
     }
     
     componentDidMount(){
+        console.log();
         let data = JSON.parse(localStorage.getItem('tolldata'))
         let vehdata = JSON.parse(localStorage.getItem('vehdata'))
         if (!data) {
             let str_toll = JSON.stringify(tollData)
             localStorage.setItem('tolldata', str_toll)
+
             this.setState({ tolls: tollData, loaded: true })
         }
         else {
@@ -59,8 +61,14 @@ class TollEntry extends react.Component{
     onSearch = (e) => {
         this.setState({ search: e })
     }
+    filtered=(e)=>{
+        this.setState({filterparam:e})
+    }
     search = (items) => {
+        
         return items.filter((item) => {
+            //console.log('search');
+            console.log(this.state.filterparam)
 
             if (item.tollname === this.state.filterparam) {
                 return this.state.searchparam.some((newItem) => {
@@ -73,6 +81,7 @@ class TollEntry extends react.Component{
                     );
                 });
             } else if (this.state.filterparam === "All") {
+                console.log('search', this.state.filterparam);
                 return this.state.searchparam.some((newItem) => {
                     return (
                         item[newItem]
@@ -124,13 +133,14 @@ class TollEntry extends react.Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.loaded && this.search(vehicleData).length > 0 ? this.search(vehicleData).map((veh, i) => <tr key={i}>
+                        {
+            this.state.loaded && this.search(vehicleData).length > 0 ?  this.search(vehicleData).map((veh, i) => <tr key={i}>
                             <td>{veh.vehicle_type}</td>
                             <td>{veh.vehicle_number}</td>
                             <td>{veh.date}</td>
                             <td>{veh.tollname}</td>
                             <td>{veh.tariff}</td>
-                        </tr>) : <tr>No such vehicle is available</tr>}
+            </tr>) : <tr>No such vehicle is available</tr>}
                        
                     </tbody>
                 </table>
