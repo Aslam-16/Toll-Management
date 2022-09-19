@@ -125,3 +125,23 @@ table th {
 #between {
   color: rgb(183, 180, 180);
 }
+/* #F2F3F5 */
+.edit-filter-modal {
+  background-color: white;
+  width: 200px;
+  position: absolute;
+  top:135px;
+  left: 216px;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  transform-origin: 0 0;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap:6px;
+  
+}
+a:hover{
+  background-color: #F2F3F5;
+}
