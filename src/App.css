@@ -44,7 +44,7 @@ input[type="search"]:focus {
   
   outline: none;
 }
-input:focus {
+input:focus,select:focus {
 
   outline: none;
 }
@@ -187,4 +187,8 @@ p{
 button:disabled{
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.error{
+  border-color: red;
 }
