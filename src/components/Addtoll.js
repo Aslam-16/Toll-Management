@@ -186,18 +186,43 @@ export class Addtoll extends React.Component {
         let data=this.state.type
         for(let i=0;i<data.length;i++){
             let curr = this.state.type[i]
+            console.log(curr['vehicletype'])
+            if(curr['vehicletype']==""){
+                console.log('hii');
+                data[i].typerror=true
+                console.log('hii',data);
+                this.setState({ type: data})
+                
+            }
+
+             if (curr['singlejourney'] == ""){
+                data[i].singlejourneyerror = true
+                this.setState({ type: data })
+            }
+             if (curr['returnjourney'] == "") {
+                data[i].returnjourneyerror = true
+                this.setState({ type: data })
+            }
+            else{
+            
             obj[curr.vehicletype]={
                 'singlejourney':curr.singlejourney,
                 'returnjourney':curr.returnjourney
+            
             }
         }
-
+            
+        }
+        let keycount = Object.keys(obj)
+        if(keycount.length==5){
         if (!localStorage.getItem('tolldata')) {
             let tolls =this.props.tolls
             tolls.push(obj)
 
             let str_tolls = JSON.stringify(tolls)
             localStorage.setItem('tolldata', str_tolls)
+            window.location.reload()
+            this.props.setShowModal()
 
 
         }
@@ -207,12 +232,14 @@ export class Addtoll extends React.Component {
             console.log(tolls);
             let str_tolls = JSON.stringify(tolls)
             localStorage.setItem('tolldata', str_tolls)
+            window.location.reload()
+            this.props.setShowModal()
 
         }
-        window.location.reload()
-        this.props.setShowModal()
+    }
+       
 
-        console.log(obj);
+        console.log(obj,keycount);
     }
     else{
         this.setState({tollerror:true})
