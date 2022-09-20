@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { Modal } from './Modal'
 import vehicleData from '../data/vehicledata.json'
 import tollData from '../data/tolldata.json'
-let vehicleTypes = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
+//let vehicleTypes = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
 // tollData.push({
 //     "tollname": "omr",
 //     "car/jeep/van": [60, 30],
@@ -52,6 +52,7 @@ class TollList extends react.Component {
         else {
             this.setState({ tollData: vehdata, loaded: true })
         }
+        
     }
    
     openModal = (e) => {
@@ -78,6 +79,9 @@ class TollList extends react.Component {
     });
 } 
     render() {
+        if(!this.state.loaded){
+            return <>Loading!...</>
+        }
         return (
             <div>
                 {this.state.showModal ? <Modal setShowModal={this.closeModal} modalType={this.state.modalType} tolls={this.state.tolls} tollData={this.state.tollData} /> : null}
@@ -109,7 +113,7 @@ class TollList extends react.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.search(tollData).length > 0 ? this.search(tollData).map((toll,i)=><tr key={i}>
+                        {this.search(this.state.tolls).length > 0 ? this.search(this.state.tolls).map((toll,i)=><tr key={i}>
                             <td>{toll.tollname}</td>
                             <td>{toll['car_jeep_van']['singlejourney']}/{toll['car_jeep_van']['returnjourney']}</td>
                             <td>{toll.lcv[['singlejourney']]}/{toll.lcv['returnjourney']}</td>

@@ -1,5 +1,6 @@
 
 import React from "react";
+import tollData from '../data/tolldata.json'
 let vehicleTypes = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
 
 export class Addtoll extends React.Component {
@@ -7,109 +8,244 @@ export class Addtoll extends React.Component {
         super(props)
         this.state = {
             tollname: '',
-            vehicleType: '',
-            singlejourney: {
-                car_jeep_van: "",
-                lcv: "",
-                heavy_vehicle: "",
-                truck_bus: ""
-            },
-            returnjourney: {
-                car_jeep_van: "",
-                lcv: "",
-                heavy_vehicle: "",
-                truck_bus: ""
-            },
-            sj: '',
-            rj: '',
             type: [],
+            vehicleTypes:[],
+            tollerror:false,
+
+            
            
         }
 
     }
 
+    componentDidMount(){
+        this.setState({vehicleTypes:vehicleTypes})
+        let arr=[]
+           for(let i=0;i<vehicleTypes.length;i++){
+            let obj={
+                vehicletype:'',
+                singlejourney:'',
+                returnjourney:'',
+                singljourneyerror:false,
+                returnjourneyerror:false,
+                typerror:false
+                
+            }
+            arr.push(obj)
 
+            
+            
+           }
+        this.setState({
+            type: arr
+        })
+    
+    }
 
-    onChange = (e) => {
-        console.log(this.props.tollData);
+    optionfilter(items) {
+        let selectedvehicletype = this.state.type.map((name) => {
+            if (name.vehicletype != "") {
+                console.log('a');
+                return name.vehicletype
+            }
+            else {
+                console.log('b');
+            }
+        }).filter(option => option !== undefined)
+
+        console.log(selectedvehicletype);
+        if (selectedvehicletype.length == 0) {
+            return this.state.vehicleTypes
+        }
+        else {
+            let newoption = selectedvehicletype.map((type) => items.filter((veh) => veh !== type))
+
+            console.log([...newoption]);
+            return newoption[0]
+
+        }
+    }
+
+    onChange = (e,i=0) => {
         let name = e.target.name
         let value = e.target.value
+        if (name === 'tollname') {
+            if(value!==""){
+                this.setState({tollname:value,tollerror:false})
+            }
+            else {
+                this.setState({ tollname: value,tollerror:true })
+            }
+        }
+        if(name==='singlejourney'){
+            if(value!==""){
+                let newtype = this.state.type
+                newtype[i].singlejourney = value
+                newtype[i].singlejourneyerror = false
+            
 
-        // let reg = /^singlejourney|returnjourney/
-        // console.log(name, value);
-        // if (reg.test(name)) {
-        //     console.log(name);
-        //     let [journey, type] = name.split('-');
-        //     if (journey === 'singlejourney') {
-        //         if (value !== "") {
-        //             let obj = this.state.singlejourney
-        //             obj[type] = value
 
-        //             this.setState({ singlejourney: obj })
-        //             this.setState({ sj: value })
-        //         }
-        //     }
-        //     else if (journey === 'returnjourney') {
-        //         if (value !== "") {
-        //             let obj = this.state.returnjourney
-        //             obj[type] = value
+            this.setState({type:newtype} )
+            }
+            else{
+                let newtype = this.state.type
+                newtype[i].singlejourney = value
+                newtype[i].singlejourneyerror = true
 
-        //             this.setState({ returnjourney: obj })
-        //             this.setState({ rj: value })
-        //         }
-        //     }
+                this.setState({ type: newtype})
 
-        // }
-        // if(name==='tollname'){
-        //     if(value!==""){
-        //         this.setState({tollname:value})
-        //     }
-        // }
-        // else if (name === 'vehicleType') {
-        //     if (value !== "") {
-        //         this.setState({ vehicleType: value })
-        //     }
-        // }
+            }
 
-        // else if (name === 'singlejourney') {
-        //     if (value !== "") {
-        //         let obj=this.state.singlejourney
-        //         obj[this.state.vehicleType]=value
+        }
+        else if (name === 'returnjourney') {
 
-        //         this.setState({ singlejourney: obj })
-        //         //this.setState({ sj: value })
-        //     }
-        // }
-        // else if (name === 'returnjourney') {
-        //     if (value !== "") {
-        //         let obj = this.state.returnjourney
-        //         obj[this.state.vehicleType] = value
 
-        //         this.setState({ returnjourney: obj })
-        //         //this.setState({rj:value})
-        //     }
-        // }
-        // else if(this.state.vehicleType){
-        //     this.setState({type:{...this.state.type,
-        //         [this.state.vehicleType]:[90,30]
-        //     }})
-        // }
+           
+            if(value!=="") {
+                let newtype = this.state.type
+                newtype[i].returnjourney = value
+                newtype[i].returnjourneyerror = false
 
-        // if(this.state.singlejourney && this.state.returnjourney){
+            this.setState({ type: newtype})
+            }
+            else{
+                let newtype = this.state.type
+                newtype[i].returnjourney = value
+                newtype[i].returnjourneyerror = true
+                this.setState({ type: newtype})
+            }
+     
+        }
+        else if (name === 'vehicleType') {
 
-        //     let data=[...this.state.type]
-        //     // this.setState({singlejourney:this.state.singlejourney})
-        //     // this.setState({ singlejourney: this.state.returnjourney })
-        //     data[i][this.state.vehicleType]=[this.state.singlejourney,this.state.returnjourney]
-        //     this.setState({ type: value, returnjourney: value })
-        // }
+           if(value!==""){ 
+            let newtype = this.state.type
+            newtype[i].vehicletype = value
+               newtype[i].typerror = false
+            this.setState({ type: newtype })
+               console.log("if",this.state.type[i]);
+        }
+           else {
+                let newtype = this.state.type
+                newtype[i].vehicletype = value
+                newtype[i].typerror = true
+                this.setState({ type: newtype })
+                console.log(this.state.type[i]);
+            }
+            
+        }
+        
+
 
     }
 
-    render() {
-        let { vehicleType } = this.state
+    // optionfilter(items){
+    //      let selectedvehicletype = this.state.type.map((name) => { if (name.vehicletype != ""){ 
+    //         console.log('a');
+    //         return name.vehicletype} 
+    //     else{
+    //          console.log('b');
+    //     } }).filter(option=>option!==undefined)
+        
+    //     console.log(selectedvehicletype);
+    //     if (selectedvehicletype.length==0){
+    //         return this.state.vehicleTypes
+    //     }
+    //     else{
+    //         let newoption = selectedvehicletype.map((type) => items.filter((veh) => veh !== type))
+    //         return newoption
 
+    //     }
+
+
+        //console.log('op',newoption);
+        
+        
+    //    // let newoption= items.filter((item,i)=>item!==selectedvehicletype[i].vehicletype
+           
+        
+
+    //     //)
+        
+    //    // console.log(newoption,selectedvehicletype);
+    //     if(newoption.length==0){
+    //         return this.state.vehicleTypes
+    //     }
+    //     else{
+    //          this.setState({vehicleTypes:newoption})
+    //         return this.state.vehicleTypes
+    //     }
        
+    // }
+    //}
+    onAdd =()=>{
+
+        if(!this.state.tollname==""){
+        let obj={}
+        obj["tollname"]=this.state.tollname
+        let data=this.state.type
+        for(let i=0;i<data.length;i++){
+            let curr = this.state.type[i]
+            obj[curr.vehicletype]={
+                'singlejourney':curr.singlejourney,
+                'returnjourney':curr.returnjourney
+            }
+        }
+
+        if (!localStorage.getItem('tolldata')) {
+            let tolls =this.props.tolls
+            tolls.push(obj)
+
+            let str_tolls = JSON.stringify(tolls)
+            localStorage.setItem('tolldata', str_tolls)
+
+
+        }
+        else {
+            let tolls = JSON.parse(localStorage.getItem('tolldata'))
+            tolls.push(obj)
+            console.log(tolls);
+            let str_tolls = JSON.stringify(tolls)
+            localStorage.setItem('tolldata', str_tolls)
+
+        }
+        window.location.reload()
+        this.props.setShowModal()
+
+        console.log(obj);
+    }
+    else{
+        this.setState({tollerror:true})
+    }
+    }
+    handleDisabledOptionClick=function (a,b) {
+        console.log('Option is disabled: ', arguments);
+    
+    }
+
+    render() {
+        //console.log(this.optionfilter(this.state.vehicleTypes))
+        const options = this.state.vehicleTypes.map((option) => {
+            return (
+                <option
+                   name='option'
+                  value={option}
+                >
+                    {option}
+                </option>
+            )
+        })
+        let { vehicleType } = this.state
+        let a = this.state.vehicleTypes.map((type, i) =>
+            <option key={i} value={type}>{type}</option>)
+        //console.log(this.state.type);
+
+        if(this.state.type.length===0){
+            return (
+                <h4>Loading</h4>
+            )
+        }
+       else
             return ( 
                 <div className="container">
                     <div className="modal">
@@ -118,59 +254,29 @@ export class Addtoll extends React.Component {
                         <div id='modal-main'>
                             <label html-for='tollname'>Toll Name</label>
                             <input type='text' id='tollname' name='tollname' value={this.state.tollname} onChange={(e) => this.onChange(e)} />
+                            {this.state.tollerror?<p>Toll name is required</p>:null}
                             <label html-for='drop-veh'>Vehicle fare details</label>
-                            <div className="vehicle-fare">
+                            {vehicleTypes.map((type, i) => <div className="vehicle-fare" key={i}>
 
-                                <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)} ref={this.callRef}>
+                                <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e,i)} 
+                                    className={this.state.type[i].typerror ? 'error' : 'clear'}
+                                   >
                                     <option value="" >select vehicle type</option>
                                     {
-                                        vehicleTypes.map((type, i) =>
-                                            <option key={i} value={type}>{type}</option>)}
-                                    {console.log('aslam')}
+                                        options}
 
                                 </select>
-                                <input type='text' name="singlejourney-0" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                                <input type='text' name="returnjourney-0" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                            </div>
-                            <div className="vehicle-fare">
+                                
+                                <input type='number' name="singlejourney" className={ this.state.type[i].singlejourneyerror ? 'error' : 'clear' }value={this.state.type[i].singlejourney} onChange={(e) => this.onChange(e,i)} />
+                                
+                                <input type='number' name="returnjourney" className={this.state.type[i].returnjourneyerror ? 'error' : 'clear'}value={this.state.type[i].returnjourney} onChange={(e) => this.onChange(e,i)} />
+                                
 
-                                <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)}>
-                                    <option value="" >select vehicle type</option>
-                                    {
-                                        vehicleTypes.map((type, i) =>
-                                            <option key={i} value={type}>{type}</option>)}
-
-                                </select>
-                                <input type='text' name="singlejourney-1" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                                <input type='text' name="returnjourney-1" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                            </div>
-                            <div className="vehicle-fare">
-
-                                <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)}>
-                                    <option value="" >select vehicle type</option>
-                                    {
-                                        vehicleTypes.map((type, i) =>
-                                            <option key={i} value={type}>{type}</option>)}
-
-                                </select>
-                                <input type='text' name="singlejourney-2" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                                <input type='text' name="returnjourney-2" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                            </div>
-                            <div className="vehicle-fare">
-
-                                <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)}>
-                                    <option value="" >select vehicle type</option>
-                                    {
-                                        vehicleTypes.map((type, i) =>
-                                            <option key={i} value={type}>{type}</option>)}
-
-                                </select>
-                                <input type='text' name="singlejourney-3" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                                <input type='text' name="returnjourney-3" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
-                            </div>
+                            </div>)}
+                           
 
                         </div>
-                        <button type='button' className='modal-button'>Add details</button>
+                        <button type='button' className='modal-button' onClick={this.onAdd}>Add details</button>
                     </div>
                 </div>
             

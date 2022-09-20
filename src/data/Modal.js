@@ -174,6 +174,43 @@ export class Modal extends React.Component {
 }
 }
 
+//  <div className="vehicle-fare">
+
+//                                 <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)}>
+//                                     <option value="" >select vehicle type</option>
+//                                     {
+//                                         vehicleTypes.map((type, i) =>
+//                                             <option key={i} value={type}>{type}</option>)}
+
+//                                 </select>
+//                                 <input type='text' name="singlejourney-1" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
+//                                 <input type='text' name="returnjourney-1" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
+//                             </div>
+//                             <div className="vehicle-fare">
+
+//                                 <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)}>
+//                                     <option value="" >select vehicle type</option>
+//                                     {
+//                                         vehicleTypes.map((type, i) =>
+//                                             <option key={i} value={type}>{type}</option>)}
+
+//                                 </select>
+//                                 <input type='text' name="singlejourney-2" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
+//                                 <input type='text' name="returnjourney-2" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
+//                             </div>
+//                             <div className="vehicle-fare">
+
+//                                 <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e)}>
+//                                     <option value="" >select vehicle type</option>
+//                                     {
+//                                         vehicleTypes.map((type, i) =>
+//                                             <option key={i} value={type}>{type}</option>)}
+
+//                                 </select>
+//                                 <input type='text' name="singlejourney-3" value={this.state.singlejourney[vehicleType]} onChange={(e) => this.onChange(e)} />
+//                                 <input type='text' name="returnjourney-3" value={this.state.returnjourney[vehicleType]} onChange={(e) => this.onChange(e)} />
+//                             </div>
+//-------------------------------------------------------------------
 // const event = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
 // const event2 = new Date(Date.UTC(2012, 11, 21, 3, 0, 0));
 // // British English uses day-month-year order and 24-hour time without AM/PM

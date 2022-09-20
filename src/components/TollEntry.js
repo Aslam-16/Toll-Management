@@ -24,7 +24,7 @@ class TollEntry extends react.Component{
     }
     
     componentDidMount(){
-        console.log();
+        
         let data = JSON.parse(localStorage.getItem('tolldata'))
         let vehdata = JSON.parse(localStorage.getItem('vehdata'))
         if (!data) {
@@ -67,8 +67,8 @@ class TollEntry extends react.Component{
     search = (items) => {
         
         return items.filter((item) => {
-            //console.log('search');
-            console.log(this.state.filterparam)
+           
+            
 
             if (item.tollname === this.state.filterparam) {
                 return this.state.searchparam.some((newItem) => {
@@ -81,7 +81,7 @@ class TollEntry extends react.Component{
                     );
                 });
             } else if (this.state.filterparam === "All") {
-                console.log('search', this.state.filterparam);
+          
                 return this.state.searchparam.some((newItem) => {
                     return (
                         item[newItem]
