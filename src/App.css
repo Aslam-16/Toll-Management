@@ -136,6 +136,12 @@ body {
   top: 0;
   right: 0;
   border-top-right-radius: 6px;
+  color:rgb(22, 142, 255);
+  background-color: white;
+  border-width: 0px;
+  font-size: larger;
+  padding: 0;
+  padding-right: 5px;
 }
 
 .modal {

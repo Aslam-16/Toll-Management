@@ -140,7 +140,7 @@ class TollEntry extends react.Component{
                             <td>{veh.date}</td>
                             <td>{veh.tollname}</td>
                             <td>{veh.tariff}</td>
-            </tr>) : <tr>No such vehicle is available</tr>}
+            </tr>) : <tr><td colSpan={5}>No such vehicle is available</td></tr> }
                        
                     </tbody>
                 </table>
