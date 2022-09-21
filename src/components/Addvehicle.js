@@ -1,7 +1,8 @@
 
 import React from "react";
+import vehicleTypes from '../data/vehicletypes.json'
 
-let vehicleTypes = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
+
 
 export class Addvehicle extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export class Addvehicle extends React.Component {
     }
 
 
-
+    //onChange
     onChange = (e) => {
         let name = e.target.name
         let value = e.target.value
@@ -87,7 +88,7 @@ export class Addvehicle extends React.Component {
 
                 vehicle.vehicle_number = value
             if (value.split('').length >= 6) {
-                let filteredveh = this.props.tollData.filter((veh) => veh.vehicle_number.toUpperCase() === value.toUpperCase())
+                let filteredveh = this.props.vehicles.filter((veh) => veh.vehicle_number.toUpperCase() === value.toUpperCase())
 
                 if (filteredveh.length === 0 || filteredveh.length % 2 === 0) {
                     vehicle.tariff = this.state.filteredjourney['singlejourney']
@@ -101,7 +102,7 @@ export class Addvehicle extends React.Component {
                 else if (filteredveh.length % 2 !== 0) {
                     let num = value.toUpperCase()
                     let curTime = new Date().toLocaleString()
-                    let tollTime = this.props.tollData.filter((toll) => toll.vehicle_number.toUpperCase() === num)
+                    let tollTime = this.props.vehicles.filter((toll) => toll.vehicle_number.toUpperCase() === num)
                     tollTime = tollTime[tollTime.length - 1].date
 
                     
@@ -132,21 +133,16 @@ export class Addvehicle extends React.Component {
 
 
         }
-        // if ( !this.state.numbererror 
-        //     && !this.state.lengtherror){
-        //     this.setState({buttonerror:false})}
-        // else {
-        //     this.setState({ buttonerror: true })
-        // }
+      
     }
-   
+   //onsubmit
     onAddToll = () => {
 
         if (!this.state.vehicletypeerror && !this.state.valueerror && !this.state.typeerror && !this.state.numbererror
             && !this.state.lengtherror) {
 
             if (!localStorage.getItem('vehdata')) {
-                let vehicleData = this.props.tollData
+                let vehicleData = this.props.vehicles
                 vehicleData.push(this.state.vehicle)
                 let str_veh = JSON.stringify(vehicleData)
                 localStorage.setItem('vehdata', str_veh)
@@ -161,7 +157,7 @@ export class Addvehicle extends React.Component {
 
             }
             window.location.reload()
-            this.props.setShowModal()
+            this.props.closeModal()
 
 
             }
@@ -172,12 +168,11 @@ export class Addvehicle extends React.Component {
     }
 
     render() {
-
             return (
                 <div className="container">
                     <div className="modal">
                         <h2>Add new Entry</h2>
-                        <button onClick={() => this.props.setShowModal()} id='modal-close'>X</button>
+                        <button onClick={() => this.props.closeModal()} id='modal-close'>X</button>
                         <div id='modal-main'>
                             <label html-for='drop-toll'>Select toll name</label>
                             <select id='drop-toll' name='vehicle_tollname' onChange={(e) => this.onChange(e)}>
@@ -186,13 +181,12 @@ export class Addvehicle extends React.Component {
 
                             </select>
                             {this.state.tollerror ? <p>Tollname is required</p> : null} 
-                            {/* {this.state.tollerror?<p>this field is required</p>:null} */}
                             <label html-for='drop-veh'>Select vehicle type</label>
                             <select id='drop-veh' name='vehicle_vehicletype' onChange={(e) => this.onChange(e)} disabled={this.state.typeerror}>
                                 <option value="">select vehicle type</option>
                                 {
-                                    vehicleTypes.map((type, i) =>
-                                        <option key={i} value={type}>{type}</option>)}
+                                    vehicleTypes.map(({vehicle,id}) =>
+                                        <option key={id} value={vehicle}>{vehicle}</option>)}
 
 
                             </select>

@@ -1,0 +1,10 @@
+[
+    { "id": 0, "vehicle": "car/jeep/van", "disabled": false
+    },
+    { "id": 1, "vehicle": "lcv", "disabled": false
+    },
+    { "id": 2, "vehicle": "heavy_vehicle", "disabled": false
+    },
+    { "id": 3, "vehicle": "truck/bus"," disabled": false
+    }
+]

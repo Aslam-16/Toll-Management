@@ -1,9 +1,7 @@
-
 import React from "react";
-import tollData from '../data/tolldata.json'
-let vehicleType = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
-let vehicleTypes = [{ id: 0, vehicle: 'car_jeep_van', disabled: false }, { id: 1, vehicle: 'lcv', disabled: false },
-    { id: 2, vehicle: 'heavy_vehicle', disabled: false }, { id: 3, vehicle: 'truck/bus', disabled: false }]
+import vehicleTypes from '../data/vehicletypes.json'
+
+
 
 export class Addtoll extends React.Component {
     constructor(props) {
@@ -11,7 +9,7 @@ export class Addtoll extends React.Component {
         this.state = {
             tollname: '',
             type: [],
-            vehicleTypes:[],
+            vehicleTypes:'',
             tollerror:false,
 
             
@@ -19,13 +17,13 @@ export class Addtoll extends React.Component {
         }
 
     }
-
+    //To load the state 
     componentDidMount(){
         this.setState({vehicleTypes:vehicleTypes})
         let arr=[]
-           for(let i=0;i<vehicleType.length;i++){
+           for(let i=0;i<vehicleTypes.length;i++){
             let obj={
-                vehicletype:vehicleType[i],
+                vehicletype:vehicleTypes[i].vehicle,
                 singlejourney:'',
                 returnjourney:'',
                 singljourneyerror:false,
@@ -34,40 +32,13 @@ export class Addtoll extends React.Component {
                 
             }
             arr.push(obj)
-
-            
-            
            }
-        this.setState({
-            type: arr
-        })
+           this.setState({type: arr})
     
     }
 
-    optionfilter(items) {
-        let selectedvehicletype = this.state.type.map((name) => {
-            if (name.vehicletype != "") {
-                console.log('a');
-                return name.vehicletype
-            }
-            else {
-                console.log('b');
-            }
-        }).filter(option => option !== undefined)
-
-        console.log(selectedvehicletype);
-        if (selectedvehicletype.length == 0) {
-            return this.state.vehicleTypes
-        }
-        else {
-            let newoption = selectedvehicletype.map((type) => items.filter((veh) => veh !== type))
-
-            console.log([...newoption]);
-            return newoption[0]
-
-        }
-    }
-
+    
+    //onChange
     onChange = (e,i=0) => {
         let name = e.target.name
         let value = e.target.value
@@ -124,88 +95,76 @@ export class Addtoll extends React.Component {
 
     }
 
-   
+   //onSubmit
     onAdd =()=>{
 
-        if(!this.state.tollname==""){
-        let obj={}
-        obj["tollname"]=this.state.tollname
-        let data=this.state.type
-        for(let i=0;i<data.length;i++){
-            let curr = this.state.type[i]
-            console.log(curr['vehicletype'])
-            // if(curr['vehicletype']==""){
-            //     console.log('hii');
-            //     data[i].typerror=true
-            //     console.log('hii',data);
-            //     this.setState({ type: data})
-                
-            // }
+        if(this.state.tollname===""){
+            console.log(this.state.tollname);
+            this.setState({ tollerror: true })
 
-             if (curr['singlejourney'] == ""){
-                data[i].singlejourneyerror = true
-                this.setState({ type: data })
-            }
-             if (curr['returnjourney'] == "") {
-                data[i].returnjourneyerror = true
-                this.setState({ type: data })
-            }
-            else{
-            
-            obj[curr.vehicletype]={
-                'singlejourney':curr.singlejourney,
-                'returnjourney':curr.returnjourney
-            
-            }
-        }
-            
-        }
-        let keycount = Object.keys(obj)
-        if(keycount.length==5){
-        if (!localStorage.getItem('tolldata')) {
-            let tolls =this.props.tolls
-            tolls.push(obj)
-
-            let str_tolls = JSON.stringify(tolls)
-            localStorage.setItem('tolldata', str_tolls)
-            window.location.reload()
-            this.props.setShowModal()
-
-
-        }
-        else {
-            let tolls = JSON.parse(localStorage.getItem('tolldata'))
-            tolls.push(obj)
-            console.log(tolls);
-            let str_tolls = JSON.stringify(tolls)
-            localStorage.setItem('tolldata', str_tolls)
-            window.location.reload()
-            this.props.setShowModal()
-
-        }
-    }
        
-
-        console.log(obj,keycount);
-    }
+}
     else{
-        this.setState({tollerror:true})
+            let obj = {}
+            obj["tollname"] = this.state.tollname
+            let data = this.state.type
+            for (let i = 0; i < data.length; i++) {
+                let curr = this.state.type[i]
+                console.log(curr['vehicletype'])
+
+
+                if (curr['singlejourney'] === "") {
+                    data[i].singlejourneyerror = true
+                    this.setState({ type: data })
+                }
+                if (curr['returnjourney'] === "") {
+                    data[i].returnjourneyerror = true
+                    this.setState({ type: data })
+                }
+                else {
+
+                    obj[curr.vehicletype] = {
+                        'singlejourney': curr.singlejourney,
+                        'returnjourney': curr.returnjourney
+
+                    }
+                }
+
+            }
+            let keycount = Object.keys(obj)
+            if (keycount.length === 5) {
+                if (!localStorage.getItem('tolldata')) {
+                    let tolls = this.props.tolls
+                    tolls.push(obj)
+
+                    let str_tolls = JSON.stringify(tolls)
+                    localStorage.setItem('tolldata', str_tolls)
+                    window.location.reload()
+                    this.props.closeModal()
+
+
+                }
+                else {
+                    let tolls = JSON.parse(localStorage.getItem('tolldata'))
+                    tolls.push(obj)
+                    console.log(tolls);
+                    let str_tolls = JSON.stringify(tolls)
+                    localStorage.setItem('tolldata', str_tolls)
+                    window.location.reload()
+                    this.props.closeModal()
+
+                }
+            }
+
     }
     }
-    handleDisabledOptionClick=(a,i)=>{
-        console.log('Option is disabled: ',a);
     
-    }
 
     render() {
-        //console.log(this.optionfilter(this.state.vehicleTypes))
-       
-       
-        //console.log(this.state.type);
-
+        
         if(this.state.type.length===0){
             return (
-                <h4>Loading</h4>
+                <h4>Loading!...</h4>
             )
         }
        else
@@ -213,7 +172,7 @@ export class Addtoll extends React.Component {
                 <div className="container">
                     <div className="modal">
                         <h2>Add new Toll</h2>
-                        <button onClick={() => this.props.setShowModal()} id='modal-close'>X</button>
+                        <button onClick={() => this.props.closeModal()} id='modal-close'>X</button>
                         <div id='modal-main'>
                             <label html-for='tollname'>Toll Name</label>
                             <input type='text' id='tollname' placeholder="Toll Name" name='tollname' value={this.state.tollname} onChange={(e) => this.onChange(e)} />
@@ -222,21 +181,9 @@ export class Addtoll extends React.Component {
                             {this.state.vehicleTypes.map.length>0 && this.state.vehicleTypes.map((type, i) => <div className="vehicle-fare" key={i}>
 
                                 <select id='drop-veh' name='vehicleType' onChange={(e) => this.onChange(e,type.id)} 
-                                    className={this.state.type[i].typerror ? 'error' : 'clear'} disabled={true}
-                                   >
-                                    <option value="" >{type.vehicle}</option>
-                                    {/* {this.state.vehicleTypes.map((option,i) => {
-                                        return (
-                                            <option key={i}
-                                                name='option'
-                                                value={option.vehicle}
-                                                disabled={option.disabled}
-                                                onClick={() => this.handleDisabledOptionClick(option,i)}
-                                            >
-                                                {option.vehicle}
-                                            </option>
-                                        )
-                                    })} */}
+                                    className={this.state.type[i].typerror ? 'error' : 'clear'} disabled={true}>
+                                    <option value={type.vehicle}>{type.vehicle}</option>
+                                   
 
                                 </select>
                                 

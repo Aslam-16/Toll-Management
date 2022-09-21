@@ -1,7 +1,7 @@
 [
     {
       "tollname":"kappalur",
-      "car_jeep_van":{
+      "car/jeep/van":{
         "singlejourney":90,
         "returnjourney":50
       },
@@ -9,7 +9,7 @@
         "singlejourney": 80,
         "returnjourney": 50
     },
-    "truck_bus": {
+    "truck/bus": {
         "singlejourney": 70,
         "returnjourney": 50
     },
@@ -21,7 +21,7 @@
     },
     {
         "tollname": "chengalpattu",
-       "car_jeep_van":{
+       "car/jeep/van":{
         "singlejourney": 90,
         "returnjourney": 50
     },
@@ -29,7 +29,7 @@
         "singlejourney": 80,
         "returnjourney": 50
     },
-    "truck_bus": {
+    "truck/bus": {
         "singlejourney": 70,
         "returnjourney": 50
     },
@@ -40,7 +40,7 @@
     },
     {
         "tollname": "krishnagiri",
-        "car_jeep_van": {
+        "car/jeep/van": {
             "singlejourney": 90,
             "returnjourney": 50
         },
@@ -48,7 +48,7 @@
             "singlejourney": 80,
             "returnjourney": 50
         },
-        "truck_bus": {
+        "truck/bus": {
             "singlejourney": 70,
             "returnjourney": 50
         },
