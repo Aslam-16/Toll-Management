@@ -43,6 +43,8 @@ export class Addvehicle extends React.Component {
             if (value !== "") {
                 
                 vehicle.tollname = value;
+                vehicle.vehicle_number = "";
+                vehicle.tariff = ""
                 this.setState({ vehicle: vehicle })
                 let filteredtoll = this.props.tolls.filter((toll) => toll.tollname === value
                 )
@@ -54,6 +56,8 @@ export class Addvehicle extends React.Component {
                 })
             }else{
                 vehicle.tollname = value;
+                
+                
                 this.setState({
                     vehicle: vehicle,
                     typeerror: true,
@@ -87,9 +91,9 @@ export class Addvehicle extends React.Component {
             
 
                 vehicle.vehicle_number = value
-            if (value.split('').length >= 6) {
-                let filteredveh = this.props.vehicles.filter((veh) => veh.vehicle_number.toUpperCase() === value.toUpperCase())
-
+            if (value.split('').length >= 7) {
+                let filteredveh = this.props.vehicles.filter((veh) => veh.vehicle_number.toUpperCase() === value.toUpperCase() && this.state.vehicle.tollname===veh.tollname)
+                console.log(filteredveh);
                 if (filteredveh.length === 0 || filteredveh.length % 2 === 0) {
                     vehicle.tariff = this.state.filteredjourney['singlejourney']
                     vehicle.date = new Date().toLocaleString()
@@ -102,7 +106,8 @@ export class Addvehicle extends React.Component {
                 else if (filteredveh.length % 2 !== 0) {
                     let num = value.toUpperCase()
                     let curTime = new Date().toLocaleString()
-                    let tollTime = this.props.vehicles.filter((toll) => toll.vehicle_number.toUpperCase() === num)
+                    let tollTime = this.props.vehicles.filter((toll) => toll.vehicle_number.toUpperCase() === num && this.state.vehicle.tollname === toll.tollname)
+                    console.log(tollTime);
                     tollTime = tollTime[tollTime.length - 1].date
 
                     
@@ -118,7 +123,7 @@ export class Addvehicle extends React.Component {
                 }
             }
             else {
-                vehicle.tariff = ""
+                
                 vehicle.vehicle_number = value
                 this.setState({ vehicle: vehicle, valueerror: false, lengtherror: true, buttonerror: true })
             }
@@ -194,7 +199,7 @@ export class Addvehicle extends React.Component {
                             <label html-for='veh-number'>Vehicle Number</label>
                             <input type='text' name='vehicle_number' placeholder="Vehicle Number" value={this.state.vehicle.vehicle_number} onChange={(e) => this.onChange(e)} disabled={this.state.numbererror} />
                              {this.state.valueerror ? <p>vehicle number is required</p> : null} 
-                            {this.state.lengtherror ? <p>Number should be greater than 6</p> : null} 
+                            {this.state.lengtherror ? <p>Number should be greater than 7</p> : null} 
                             <label html-for='tariff'>Tariff</label>
                             <input type='text' name='tariff' placeholder="Tariff" value={this.state.vehicle.tariff} onChange={(e) => this.onChange(e)} disabled={true} />
 
