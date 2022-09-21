@@ -36,8 +36,8 @@ export class Addvehicle extends React.Component {
 
     //onChange
     onChange = (e) => {
-        let name = e.target.name
-        let value = e.target.value
+        let  {name,value}=e.target
+        
         let vehicle = { ...this.state.vehicle }
         if (name === 'vehicle_tollname') {
             if (value !== "") {
@@ -71,14 +71,18 @@ export class Addvehicle extends React.Component {
             
             if (value !== "") {
                 vehicle.vehicle_type = value;
+                vehicle.vehicle_number = "";
+            
                 vehicle.tariff = this.state.filterfromdata[0][value]['singlejourney']
+                
                 this.setState({ vehicle: vehicle, filteredjourney: this.state.filterfromdata[0][value], numbererror: false, vehicletypeerror: false  })
 
             }
             else{
-
+                
                 vehicle.tariff=""
                 vehicle.vehicle_type = value;
+                vehicle.vehicle_number = "";
                 this.setState({ vehicle: vehicle, numbererror: true, vehicletypeerror: true, buttonerror: true})
 
             }
@@ -93,7 +97,6 @@ export class Addvehicle extends React.Component {
                 vehicle.vehicle_number = value
             if (value.split('').length >= 7) {
                 let filteredveh = this.props.vehicles.filter((veh) => veh.vehicle_number.toUpperCase() === value.toUpperCase() && this.state.vehicle.tollname===veh.tollname)
-                console.log(filteredveh);
                 if (filteredveh.length === 0 || filteredveh.length % 2 === 0) {
                     vehicle.tariff = this.state.filteredjourney['singlejourney']
                     vehicle.date = new Date().toLocaleString()
@@ -140,12 +143,22 @@ export class Addvehicle extends React.Component {
         }
       
     }
+
+    // !this.state.vehicletypeerror && !this.state.valueerror && !this.state.typeerror && !this.state.numbererror
+    // && !this.state.lengtherror
    //onsubmit
     onAddToll = () => {
+        let { tollname,
+            vehicle_type,
+            vehicle_number,
+             }=this.state.vehicle
 
-        if (!this.state.vehicletypeerror && !this.state.valueerror && !this.state.typeerror && !this.state.numbererror
-            && !this.state.lengtherror) {
 
+        if (!tollname&& !vehicle_type && !vehicle_number) {
+            alert('Fill all the required fields')
+
+            }
+            else{
             if (!localStorage.getItem('vehdata')) {
                 let vehicleData = this.props.vehicles
                 vehicleData.push(this.state.vehicle)
@@ -163,26 +176,22 @@ export class Addvehicle extends React.Component {
             }
             window.location.reload()
             this.props.closeModal()
-
-
-            }
-            else{
-                alert('Fill all the required fields')
             }
        
     }
 
     render() {
+        let {tolls,closeModal}=this.props
             return (
                 <div className="container">
                     <div className="modal">
                         <h2>Add new Entry</h2>
-                        <button onClick={() => this.props.closeModal()} id='modal-close'>X</button>
+                        <button onClick={() =>closeModal()} id='modal-close'>X</button>
                         <div id='modal-main'>
                             <label html-for='drop-toll'>Select toll name</label>
                             <select id='drop-toll' name='vehicle_tollname' onChange={(e) => this.onChange(e)}>
                                 <option value="">select toll</option>
-                                {this.props.tolls && this.props.tolls.map((toll, i) => <option key={i} value={toll.tollname}>{toll.tollname}</option>)}
+                                {tolls && tolls.map((toll, i) => <option key={i} value={toll.tollname}>{toll.tollname}</option>)}
 
                             </select>
                             {this.state.tollerror ? <p>Tollname is required</p> : null} 

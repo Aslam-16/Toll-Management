@@ -130,7 +130,9 @@ body {
   align-items: center;
 
 }
-
+i{
+  cursor: pointer;
+}
 #modal-close {
   position: absolute;
   top: 0;

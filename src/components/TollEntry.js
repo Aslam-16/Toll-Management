@@ -5,14 +5,12 @@ import vehicleData from '../data/vehicledata.json'
 import tollData from '../data/tolldata.json'
 import Tableheader from './Tableheader'
 
-
-
 class TollEntry extends react.Component{
     constructor(props){
         super(props)
         this.state={
             showModal:false,
-            modalType:"",
+            modalType:'vehicle',
             search:'',
             tolls:'',
             vehicles:[],

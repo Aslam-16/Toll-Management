@@ -10,10 +10,7 @@ export class Addtoll extends React.Component {
             tollname: '',
             type: [],
             vehicleTypes:'',
-            tollerror:false,
-
-            
-           
+            tollerror:false,   
         }
 
     }
@@ -40,8 +37,7 @@ export class Addtoll extends React.Component {
     
     //onChange
     onChange = (e,i=0) => {
-        let name = e.target.name
-        let value = e.target.value
+        let {name,value}=e.target
         if (name === 'tollname') {
             if(value!==""){
                 this.setState({tollname:value,tollerror:false})
@@ -97,20 +93,22 @@ export class Addtoll extends React.Component {
 
    //onSubmit
     onAdd =()=>{
-
+        
+        let oldtoll = this.props.tolls.filter((({tollname}) => this.state.tollname === tollname))
         if(this.state.tollname===""){
-            console.log(this.state.tollname);
             this.setState({ tollerror: true })
 
-       
 }
+      else if(oldtoll.length>0){
+        alert('Tollname already exist!!!!')
+      }
+        
     else{
             let obj = {}
             obj["tollname"] = this.state.tollname
             let data = this.state.type
             for (let i = 0; i < data.length; i++) {
                 let curr = this.state.type[i]
-                console.log(curr['vehicletype'])
 
 
                 if (curr['singlejourney'] === "") {
@@ -147,7 +145,6 @@ export class Addtoll extends React.Component {
                 else {
                     let tolls = JSON.parse(localStorage.getItem('tolldata'))
                     tolls.push(obj)
-                    console.log(tolls);
                     let str_tolls = JSON.stringify(tolls)
                     localStorage.setItem('tolldata', str_tolls)
                     window.location.reload()
@@ -161,7 +158,7 @@ export class Addtoll extends React.Component {
     
 
     render() {
-        
+        let {  closeModal } = this.props
         if(this.state.type.length===0){
             return (
                 <h4>Loading!...</h4>
@@ -172,7 +169,7 @@ export class Addtoll extends React.Component {
                 <div className="container">
                     <div className="modal">
                         <h2>Add new Toll</h2>
-                        <button onClick={() => this.props.closeModal()} id='modal-close'>X</button>
+                        <button onClick={() =>closeModal()} id='modal-close'>X</button>
                         <div id='modal-main'>
                             <label html-for='tollname'>Toll Name</label>
                             <input type='text' id='tollname' placeholder="Toll Name" name='tollname' value={this.state.tollname} onChange={(e) => this.onChange(e)} />

@@ -5,17 +5,14 @@ import Tableheader from './Tableheader'
 import vehicleData from '../data/vehicledata.json'
 import tollData from '../data/tolldata.json'
 
-
-
-
 class TollList extends react.Component {
     constructor(props) {
         super(props)
         this.state = {
             showModal: false,
-            modalType: "",
+            modalType: "toll",
             search:'',
-            tolls: '',
+            tolls: [],
             vehicles: [],
             loaded: false
            
@@ -23,7 +20,6 @@ class TollList extends react.Component {
     }
     //to load initial data
     componentDidMount() {
-        console.log();
         let data = JSON.parse(localStorage.getItem('tolldata'))
         let vehdata = JSON.parse(localStorage.getItem('vehdata'))
         if (!data) {
@@ -71,7 +67,18 @@ class TollList extends react.Component {
             );
         
     });
+    
 } 
+delete =(id)=> {
+    let {tolls}=this.state
+    tolls.splice(id,1)
+    this.setState({tolls:tolls})
+    
+        let str_toll = JSON.stringify(tolls)
+        localStorage.setItem('tolldata', str_toll)
+
+        
+}
     render() {
         if(!this.state.loaded){
             return <>Loading!...</>
@@ -100,13 +107,14 @@ class TollList extends react.Component {
 
                    
                     <tbody>
-                        {this.search(this.state.tolls).length > 0 ? this.search(this.state.tolls).map((toll,i)=><tr key={i}>
+                        {this.search(this.state.tolls).length > 0 ? this.search(this.state.tolls).map((toll,id)=><tr key={id}>
                             <td>{toll.tollname}</td>
                             <td>{toll['car/jeep/van']['singlejourney']}/{toll['car/jeep/van']['returnjourney']}</td>
                             <td>{toll.lcv[['singlejourney']]}/{toll.lcv['returnjourney']}</td>
                             <td>{toll["truck/bus"]['singlejourney']}/{toll["truck/bus"]['returnjourney']}</td>
                             <td>{toll.heavy_vehicle['singlejourney']}/{toll.heavy_vehicle['returnjourney']}</td>
-                        </tr>) : <tr><td colSpan={5}>No such toll is available</td></tr>}
+                            <td><i className='fa fa-trash' onClick={()=>this.delete(id)}></i></td>
+                        </tr>) : <tr><td colSpan={5}>No toll is available</td></tr>}
                     </tbody>
                 </table>
             </div>
