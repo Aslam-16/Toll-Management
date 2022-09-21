@@ -22,7 +22,7 @@ class TollList extends react.Component {
     componentDidMount() {
         let data = JSON.parse(localStorage.getItem('tolldata'))
         let vehdata = JSON.parse(localStorage.getItem('vehdata'))
-        if (!data) {
+        if (!data || this.state.tolls.length===0) {
             let str_toll = JSON.stringify(tollData)
             localStorage.setItem('tolldata', str_toll)
 
@@ -76,6 +76,9 @@ delete =(id)=> {
     
         let str_toll = JSON.stringify(tolls)
         localStorage.setItem('tolldata', str_toll)
+     if(this.state.tolls.length==0){
+            window.location.reload()
+        }
 
         
 }
@@ -110,7 +113,7 @@ delete =(id)=> {
                         {this.search(this.state.tolls).length > 0 ? this.search(this.state.tolls).map((toll,id)=><tr key={id}>
                             <td>{toll.tollname}</td>
                             <td>{toll['car/jeep/van']['singlejourney']}/{toll['car/jeep/van']['returnjourney']}</td>
-                            <td>{toll.lcv[['singlejourney']]}/{toll.lcv['returnjourney']}</td>
+                            <td>{toll.lcv['singlejourney']}/{toll.lcv['returnjourney']}</td>
                             <td>{toll["truck/bus"]['singlejourney']}/{toll["truck/bus"]['returnjourney']}</td>
                             <td>{toll.heavy_vehicle['singlejourney']}/{toll.heavy_vehicle['returnjourney']}</td>
                             <td><i className='fa fa-trash' onClick={()=>this.delete(id)}></i></td>
