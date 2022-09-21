@@ -22,7 +22,7 @@ class TollList extends react.Component {
     componentDidMount() {
         let data = JSON.parse(localStorage.getItem('tolldata'))
         let vehdata = JSON.parse(localStorage.getItem('vehdata'))
-        if (!data || this.state.tolls.length===0) {
+        if (!data) {
             let str_toll = JSON.stringify(tollData)
             localStorage.setItem('tolldata', str_toll)
 
