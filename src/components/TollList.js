@@ -69,15 +69,24 @@ class TollList extends react.Component {
     });
     
 } 
+    
+ //after all the data deleted, it gets refreshed and shows the sample 3 data for reference,
+//if u add a new toll, and deletes it it'll get deleted permanently
 delete =(id)=> {
     let {tolls}=this.state
     tolls.splice(id,1)
     this.setState({tolls:tolls})
     
-        let str_toll = JSON.stringify(tolls)
-        localStorage.setItem('tolldata', str_toll)
-     if(this.state.tolls.length==0){
+       
+      if(this.state.tolls.length==0){
+            localStorage.removeItem('tolldata')
+            let str_toll = JSON.stringify(tollData)
+            localStorage.setItem('tolldata', str_toll)
             window.location.reload()
+        }
+        else{
+            let str_toll = JSON.stringify(tolls)
+            localStorage.setItem('tolldata', str_toll)
         }
 
         
