@@ -230,3 +230,98 @@ export class Modal extends React.Component {
 // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 // console.log(hours + " milliseconds", date1, date2);
 // console.log(diffDays + " days");
+//----------------------------------------------------------------------------
+
+ // optionfilter(items){
+    //      let selectedvehicletype = this.state.type.map((name) => { if (name.vehicletype != ""){ 
+    //         console.log('a');
+    //         return name.vehicletype} 
+    //     else{
+    //          console.log('b');
+    //     } }).filter(option=>option!==undefined)
+        
+    //     console.log(selectedvehicletype);
+    //     if (selectedvehicletype.length==0){
+    //         return this.state.vehicleTypes
+    //     }
+    //     else{
+    //         let newoption = selectedvehicletype.map((type) => items.filter((veh) => veh !== type))
+    //         return newoption
+
+    //     }
+
+
+        //console.log('op',newoption);
+        
+        
+    //    // let newoption= items.filter((item,i)=>item!==selectedvehicletype[i].vehicletype
+           
+        
+
+    //     //)
+        
+    //    // console.log(newoption,selectedvehicletype);
+    //     if(newoption.length==0){
+    //         return this.state.vehicleTypes
+    //     }
+    //     else{
+    //          this.setState({vehicleTypes:newoption})
+    //         return this.state.vehicleTypes
+    //     }
+       
+    // }
+    //}
+
+// if(curr['vehicletype']==""){
+            //     console.log('hii');
+            //     data[i].typerror=true
+            //     console.log('hii',data);
+            //     this.setState({ type: data})
+                
+            // }
+
+// else if (name === 'vehicleType') {
+
+        //    if(value!==""){ 
+        //     let newtype = this.state.type
+        //     newtype[i].vehicletype = value
+        //        newtype[i].typerror = false
+            
+        //        let disablethis = this.state.vehicleTypes
+        //        let ind;
+        //        let filtered=disablethis.map((data)=>{
+        //         if(data.vehicle===value ){
+        //             if(!data.disabled){
+        //                 data.disabled = true
+        //             }
+        //             else{
+        //                 data.disabled = false
+        //             }
+                   
+                   
+                    
+        //         }
+        //         else {
+        //             data.disabled = false
+        //         }
+               
+        //         return data
+        //     })
+        //     //    let optionid=filtered[0].id
+        //     //    let data = filtered[0].disabled
+        //     //    filtered[0].disabled=!data
+        //     //    disablethis[optionid]=filtered[0]
+        //        console.log(filtered, disablethis);
+        //        this.setState({ type: newtype ,vehicleTypes:disablethis})
+        //     console.log(this.state.vehicleTypes);
+        // }
+        //    else {
+        //         let newtype = this.state.type
+        //         newtype[i].vehicletype = value
+        //         newtype[i].typerror = true
+               
+        //        this.setState({ type: newtype})
+        //        console.log(this.state.vehicleTypes);
+        //     }
+            
+        // }

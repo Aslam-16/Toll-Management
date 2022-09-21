@@ -198,11 +198,11 @@ export class Addvehicle extends React.Component {
                             </select>
                             {this.state.vehicletypeerror? <p>Vehicle type is required</p> : null}
                             <label html-for='veh-number'>Vehicle Number</label>
-                            <input type='text' name='vehicle_number' value={this.state.vehicle.vehicle_number} onChange={(e) => this.onChange(e)} disabled={this.state.numbererror} />
+                            <input type='text' name='vehicle_number' placeholder="Vehicle Number" value={this.state.vehicle.vehicle_number} onChange={(e) => this.onChange(e)} disabled={this.state.numbererror} />
                              {this.state.valueerror ? <p>vehicle number is required</p> : null} 
                             {this.state.lengtherror ? <p>Number should be greater than 6</p> : null} 
                             <label html-for='tariff'>Tariff</label>
-                            <input type='text' name='tariff' value={this.state.vehicle.tariff} onChange={(e) => this.onChange(e)} disabled={true} />
+                            <input type='text' name='tariff' placeholder="Tariff" value={this.state.vehicle.tariff} onChange={(e) => this.onChange(e)} disabled={true} />
 
                         </div>
                         <button type='button' className='modal-button' onClick={this.onAddToll} disabled={this.state.buttonerror}>Add new Vehicle</button>
