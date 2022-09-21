@@ -121,7 +121,7 @@ body {
 
 .container {
   position: absolute;
-  width: 100%;
+  width: 99%;
   height: 100vh;
   display: flex;
   background: rgba(3, 3, 3, 0.5);
