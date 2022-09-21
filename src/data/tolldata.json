@@ -2,59 +2,59 @@
     {
       "tollname":"kappalur",
       "car/jeep/van":{
-        "singlejourney":90,
-        "returnjourney":50
+        "singlejourney":100,
+        "returnjourney":80
       },
       "lcv":{
-        "singlejourney": 80,
-        "returnjourney": 50
+        "singlejourney": 120,
+        "returnjourney": 100
     },
     "truck/bus": {
-        "singlejourney": 70,
-        "returnjourney": 50
+        "singlejourney": 150,
+        "returnjourney": 130
     },
     "heavy_vehicle": {
-        "singlejourney": 60,
-        "returnjourney": 50
+        "singlejourney": 170,
+        "returnjourney": 150
     }
 
     },
     {
         "tollname": "chengalpattu",
        "car/jeep/van":{
-        "singlejourney": 90,
-        "returnjourney": 50
+        "singlejourney": 100,
+        "returnjourney": 80
     },
     "lcv":{
-        "singlejourney": 80,
-        "returnjourney": 50
+        "singlejourney": 120,
+        "returnjourney": 100
     },
     "truck/bus": {
-        "singlejourney": 70,
-        "returnjourney": 50
+        "singlejourney": 150,
+        "returnjourney": 130
     },
     "heavy_vehicle": {
-        "singlejourney": 60,
-        "returnjourney": 50
+        "singlejourney": 170,
+        "returnjourney": 150
     }
     },
     {
         "tollname": "krishnagiri",
         "car/jeep/van": {
-            "singlejourney": 90,
-            "returnjourney": 50
+            "singlejourney": 100,
+            "returnjourney": 80
         },
         "lcv":{
-            "singlejourney": 80,
-            "returnjourney": 50
+            "singlejourney": 120,
+            "returnjourney": 100
         },
         "truck/bus": {
-            "singlejourney": 70,
-            "returnjourney": 50
+            "singlejourney": 150,
+            "returnjourney": 130
         },
         "heavy_vehicle": {
-            "singlejourney": 60,
-            "returnjourney": 50
+            "singlejourney": 170,
+            "returnjourney": 150
         }
     }
 ]
