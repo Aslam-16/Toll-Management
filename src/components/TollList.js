@@ -1,18 +1,11 @@
 import react from 'react'
 import {Link} from 'react-router-dom'
 import { Modal } from './Modal'
+import Tableheader from './Tableheader'
 import vehicleData from '../data/vehicledata.json'
 import tollData from '../data/tolldata.json'
-//let vehicleTypes = ['car_jeep_van', 'lcv', 'heavy_vehicle', 'truck_bus']
-// tollData.push({
-//     "tollname": "omr",
-//     "car/jeep/van": [60, 30],
-//     "lcv": [90, 40],
-//     "truck/bus": [70, 50],
-//     "heavy_vehicle": [80, 60]
 
-// })
-//console.log(localStorage.getItem('tolldata'))
+
 
 
 class TollList extends react.Component {
@@ -23,12 +16,12 @@ class TollList extends react.Component {
             modalType: "",
             search:'',
             tolls: '',
-            tollData: [],
+            vehicles: [],
             loaded: false
            
         }
     }
-
+    //to load initial data
     componentDidMount() {
         console.log();
         let data = JSON.parse(localStorage.getItem('tolldata'))
@@ -47,17 +40,16 @@ class TollList extends react.Component {
         if (!vehdata) {
             let str_veh = JSON.stringify(vehicleData)
             localStorage.setItem('vehdata', str_veh)
-            this.setState({ tollData: vehicleData, loaded: true })
+            this.setState({ vehicles: vehicleData, loaded: true })
         }
         else {
-            this.setState({ tollData: vehdata, loaded: true })
+            this.setState({ vehicles: vehdata, loaded: true })
         }
         
     }
    
     openModal = (e) => {
         this.setState({ showModal: true, modalType: e.target.name })
-        console.log('yes', e.target.name)
     };
     closeModal = () => {
         this.setState({ showModal: false, modalType: '' })
@@ -66,7 +58,9 @@ class TollList extends react.Component {
         console.log(e);
         this.setState({search:e})
     }
-      search=(items) =>{
+
+    //searching
+    search=(items) =>{
     return items.filter((item) => {
         
             return (
@@ -84,7 +78,7 @@ class TollList extends react.Component {
         }
         return (
             <div>
-                {this.state.showModal ? <Modal setShowModal={this.closeModal} modalType={this.state.modalType} tolls={this.state.tolls} tollData={this.state.tollData} /> : null}
+                {this.state.showModal ? <Modal closeModal={this.closeModal} modalType={this.state.modalType} tolls={this.state.tolls} vehicles={this.state.vehicles} /> : null}
 
                 <div id='header'>
                     <div id="left-header">
@@ -102,24 +96,17 @@ class TollList extends react.Component {
                     </div>
                 </div>
                 <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">TOLL NAME</th>
-                            <th scope="col">CARE/JEEP/VAN</th>
-                            <th scope="col">LCV</th>
-                            <th scope="col">TRUCK/BUS</th>
-                            <th scope="col">HEAVY VEHICLE</th>
+                    <Tableheader type={this.state.modalType}  />
 
-                        </tr>
-                    </thead>
+                   
                     <tbody>
                         {this.search(this.state.tolls).length > 0 ? this.search(this.state.tolls).map((toll,i)=><tr key={i}>
                             <td>{toll.tollname}</td>
-                            <td>{toll['car_jeep_van']['singlejourney']}/{toll['car_jeep_van']['returnjourney']}</td>
+                            <td>{toll['car/jeep/van']['singlejourney']}/{toll['car/jeep/van']['returnjourney']}</td>
                             <td>{toll.lcv[['singlejourney']]}/{toll.lcv['returnjourney']}</td>
-                            <td>{toll["truck_bus"]['singlejourney']}/{toll["truck_bus"]['returnjourney']}</td>
+                            <td>{toll["truck/bus"]['singlejourney']}/{toll["truck/bus"]['returnjourney']}</td>
                             <td>{toll.heavy_vehicle['singlejourney']}/{toll.heavy_vehicle['returnjourney']}</td>
-                        </tr>):<tr>No such Toll is available</tr>}
+                        </tr>) : <tr><td colSpan={5}>No such toll is available</td></tr>}
                     </tbody>
                 </table>
             </div>

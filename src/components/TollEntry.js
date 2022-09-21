@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {Modal} from './Modal'
 import vehicleData from '../data/vehicledata.json'
 import tollData from '../data/tolldata.json'
+import Tableheader from './Tableheader'
 
 
 
@@ -12,17 +13,16 @@ class TollEntry extends react.Component{
         this.state={
             showModal:false,
             modalType:"",
-            filterToggle: false,
             search:'',
             tolls:'',
-            tollData:[],
+            vehicles:[],
             loaded:false,
             searchparam:['tollname','vehicle_number'],
             filterparam:'All',
             
         }
     }
-    
+    //To load initial data
     componentDidMount(){
         
         let data = JSON.parse(localStorage.getItem('tolldata'))
@@ -41,22 +41,21 @@ class TollEntry extends react.Component{
         if (!vehdata) {
             let str_veh = JSON.stringify(vehicleData)
             localStorage.setItem('vehdata', str_veh)
-            this.setState({ tollData: vehicleData,loaded:true})
+            this.setState({ vehicles: vehicleData,loaded:true})
         }
         else {
-            this.setState({ tollData: vehdata,loaded:true})
+            this.setState({ vehicles: vehdata,loaded:true})
         }
     }
-
+    //For modal
      openModal = (e) => {
         this.setState({showModal:true,modalType:e.target.name})
     };
     closeModal = () => {
         this.setState({ showModal: false, modalType:'' })
     };
-    toggle = () => {
-        this.setState({ filterToggle: !this.state.filterToggle })
-    };
+
+   
     
     onSearch = (e) => {
         this.setState({ search: e })
@@ -64,6 +63,7 @@ class TollEntry extends react.Component{
     filtered=(e)=>{
         this.setState({filterparam:e})
     }
+    //for search and filter
     search = (items) => {
         
         return items.filter((item) => {
@@ -96,10 +96,10 @@ class TollEntry extends react.Component{
     }
 
     render(){
-        let vehicleData = this.state.tollData.length > 0 ? this.state.tollData:[]
+        let vehicleData = this.state.vehicles.length > 0 ? this.state.vehicles:[]
         return(
            this.state.loaded && <div>
-                {this.state.showModal ? <Modal setShowModal={this.closeModal} modalType={this.state.modalType} tolls={this.state.tolls} tollData={this.state.tollData}/> : null}
+                {this.state.showModal ? <Modal closeModal={this.closeModal} modalType={this.state.modalType} tolls={this.state.tolls} vehicles={this.state.vehicles}/> : null}
 
                 <div id='header'>
                 <div id="left-header">
@@ -108,7 +108,7 @@ class TollEntry extends react.Component{
                         <select className="custom-select" aria-label="Filter Countries By Region" onChange={(e) => {
                             this.filtered(e.target.value);
                         }}>
-        <option value="All">Filter By Region</option>
+        <option value="All">Filter By Toll Name</option>
                             {this.state.tolls && this.state.tolls.map((toll,i)=> <option key={i}value={toll.tollname}>{toll.tollname}</option>)}
        
         </select>
@@ -122,16 +122,7 @@ class TollEntry extends react.Component{
                     </div>
                 </div>
                 <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">VEHICLE TYPE</th>
-                            <th scope="col">VEHICLE NUMBER</th>
-                            <th scope="col">DATE/TIME</th>
-                            <th scope="col">TOLL NAME</th>
-                            <th scope="col">TARIFF</th>
-
-                        </tr>
-                    </thead>
+                    <Tableheader type={this.state.modalType} />
                     <tbody>
                         {
             this.state.loaded && this.search(vehicleData).length > 0 ?  this.search(vehicleData).map((veh, i) => <tr key={i}>
